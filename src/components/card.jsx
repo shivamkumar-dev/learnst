@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Card = ({ item }) => {
   const { title, resourceUrl, coverUrl, level } = item;
 
   return (
     <div className='col text-center'>
-      <div className='card shadow-sm' style={{ width: '15rem' }}>
-        <img src={coverUrl} className='card-img-top' alt='...' />
+      <div className='card'>
+        <img src={coverUrl} className='card-img-top' alt={title} />
         <div className='card-body'>
           <h4 className='card-title'>{title}</h4>
           <h6>Level: {level.name}</h6>
@@ -22,6 +23,10 @@ const Card = ({ item }) => {
       </div>
     </div>
   );
+};
+
+Card.propTypes = {
+  item: PropTypes.object.isRequired,
 };
 
 export default Card;

@@ -63,7 +63,7 @@ const Resource = () => {
 
   return (
     <>
-      {/* Filtering Dropdowns */}
+      {/* Dropdowns */}
       <div className='row g-3 m-4'>
         <Dropdown
           title='Category'
@@ -79,7 +79,7 @@ const Resource = () => {
       </div>
 
       {/* Resource Cards */}
-      <div className='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3'>
+      <div class='row row-cols-1 row-cols-md-4 g-4'>
         {filteredResources.map((resource) => (
           <Card key={resource._id} item={resource} />
         ))}
