@@ -31,22 +31,26 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className='nav-item'>
-              <NavLink className='nav-link' to='quizzes'>
+              <NavLink className='nav-link' to='/quizzes'>
                 Quizzes
               </NavLink>
             </li>
             <li className='nav-item'>
-              <NavLink className='nav-link' to='resources'>
+              <NavLink className='nav-link' to='/resources'>
                 Resources
               </NavLink>
             </li>
           </ul>
-          <button type='button' class='btn btn-outline-warning me-3'>
-            Login
-          </button>
-          <button type='button' class='btn btn-outline-warning me-3'>
-            Signup
-          </button>
+          <NavLink className='nav-link' to='/login'>
+            <button type='button' className='btn btn-outline-warning'>
+              Login
+            </button>
+          </NavLink>
+          <NavLink className='nav-link' to='/signup'>
+            <button type='button' className='btn btn-outline-warning'>
+              Signup
+            </button>
+          </NavLink>
         </div>
       </div>
     </nav>

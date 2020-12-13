@@ -4,14 +4,18 @@ import Quizzes from './components/quizzes';
 import Resource from './components/resources';
 import Home from './components/home';
 import Navbar from './components/navbar';
+import LoginForm from './components/loginForm';
 import './App.css';
 
 function App() {
   return (
-    <main>
+    <div>
       <Navbar />
-      <div className='container album py-5'>
+      <div className='container'>
         <Switch>
+          <Route path='/login'>
+            <LoginForm />
+          </Route>
           <Route path='/quizzes'>
             <Quizzes />
           </Route>
@@ -23,7 +27,7 @@ function App() {
           </Route>
         </Switch>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Card from './card';
-import Dropdown from './dropdown';
+import Card from './common/card';
+import Dropdown from './common/dropdown';
+import { getResources } from '../services/resourceService';
+import { getCategories } from '../services/categoryService';
+import { getLevels } from '../services/levelService';
 
 const Resource = () => {
   //  States
@@ -13,31 +15,24 @@ const Resource = () => {
 
   // Getting Datas from API
   useEffect(() => {
-    async function getResources() {
-      const result = await axios(
-        'https://learnst-b.herokuapp.com/api/resources'
-      );
-      setResources(result.data);
-    }
-    getResources();
+    (async () => {
+      const { data } = await getResources();
+      setResources(data);
+    })();
   }, []);
 
   useEffect(() => {
-    async function getCategories() {
-      const result = await axios(
-        'https://learnst-b.herokuapp.com/api/categories'
-      );
+    (async () => {
+      const result = await getCategories();
       setCategories(result.data);
-    }
-    getCategories();
+    })();
   }, []);
 
   useEffect(() => {
-    async function getLevels() {
-      const result = await axios('https://learnst-b.herokuapp.com/api/levels');
+    (async () => {
+      const result = await getLevels();
       setLevels(result.data);
-    }
-    getLevels();
+    })();
   }, []);
 
   // Handlers
@@ -79,7 +74,7 @@ const Resource = () => {
       </div>
 
       {/* Resource Cards */}
-      <div class='row row-cols-1 row-cols-md-4 g-4'>
+      <div className='row row-cols-1 row-cols-md-4 g-4'>
         {filteredResources.map((resource) => (
           <Card key={resource._id} item={resource} />
         ))}
