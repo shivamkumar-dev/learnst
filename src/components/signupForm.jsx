@@ -4,11 +4,12 @@ import Input from './common/input';
 import Button from './common/button';
 import { validate, validateProperty } from './common/formValidation';
 
-const LoginForm = () => {
-  const [account, setAccount] = useState({ email: '', password: '' });
+const SignupForm = () => {
+  const [account, setAccount] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
 
   const schema = Joi.object().keys({
+    name: Joi.string().required().label('Name'),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .required()
@@ -43,11 +44,20 @@ const LoginForm = () => {
 
   return (
     <>
-      <h1 className='py-5'>Login</h1>
+      <h1 className='py-5'>Signup</h1>
       <form onSubmit={handleSubmit}>
+        <Input
+          name='name'
+          label='Name'
+          type='text'
+          value={account.name}
+          onChange={handleChange}
+          error={errors.name}
+        />
         <Input
           name='email'
           label='Email'
+          type='text'
           value={account.email}
           onChange={handleChange}
           error={errors.email}
@@ -55,15 +65,15 @@ const LoginForm = () => {
         <Input
           name='password'
           label='Password'
-          value={account.password}
           type='password'
+          value={account.password}
           onChange={handleChange}
           error={errors.password}
         />
-        <Button type='submit' className='btn btn-primary' label='Login' />
+        <Button type='submit' className='btn btn-primary' label='Signup' />
       </form>
     </>
   );
 };
 
-export default LoginForm;
+export default SignupForm;
