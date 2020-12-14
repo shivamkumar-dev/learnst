@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Card from './common/card';
-import Dropdown from './common/dropdown';
-import { getResources } from '../services/resourceService';
-import { getCategories } from '../services/categoryService';
-import { getLevels } from '../services/levelService';
+import ResourceCard from './resourceCard';
+import Dropdown from '../common/dropdown';
+import Button from '../common/button';
+import { getResources } from '../../services/resourceService';
+import { getCategories } from '../../services/categoryService';
+import { getLevels } from '../../services/levelService';
 
 const Resource = () => {
   //  States
@@ -15,24 +16,36 @@ const Resource = () => {
 
   // Getting Datas from API
   useEffect(() => {
+    let mounted = true;
     (async () => {
       const { data } = await getResources();
-      setResources(data);
+      if (mounted) {
+        setResources(data);
+      }
     })();
+    return () => (mounted = false);
   }, []);
 
   useEffect(() => {
+    let mounted = true;
     (async () => {
       const result = await getCategories();
-      setCategories(result.data);
+      if (mounted) {
+        setCategories(result.data);
+      }
     })();
+    return () => (mounted = false);
   }, []);
 
   useEffect(() => {
+    let mounted = true;
     (async () => {
       const result = await getLevels();
-      setLevels(result.data);
+      if (mounted) {
+        setLevels(result.data);
+      }
     })();
+    return () => (mounted = false);
   }, []);
 
   // Handlers
@@ -59,7 +72,7 @@ const Resource = () => {
   return (
     <>
       {/* Dropdowns */}
-      <div className='row g-3 m-4'>
+      <div className='row m-4'>
         <Dropdown
           title='Category'
           items={categories}
@@ -71,12 +84,16 @@ const Resource = () => {
           items={levels}
           onItemSelect={handleLevelSelect}
         />
+
+        <div className='col-3'>
+          <Button className='btn btn-primary' label='Add New Resource' />
+        </div>
       </div>
 
       {/* Resource Cards */}
       <div className='row row-cols-1 row-cols-md-4 g-4'>
         {filteredResources.map((resource) => (
-          <Card key={resource._id} item={resource} />
+          <ResourceCard item={resource} key={resource._id} />
         ))}
       </div>
     </>

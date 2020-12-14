@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Quizzes from './components/quizzes';
-import Resource from './components/resources';
+import Resource from './components/resource/resources';
 import Home from './components/home';
 import Navbar from './components/navbar';
 import LoginForm from './components/loginForm';
@@ -22,7 +22,7 @@ function App() {
           <Route path='/resources'>
             <Resource />
           </Route>
-          <Route path='/'>
+          <Route exact path='/'>
             <Home />
           </Route>
         </Switch>

@@ -1,5 +1,3 @@
-import axios from 'axios';
-require('dotenv').config();
+import http from './http';
 
-export const getCategories = () =>
-  axios('https://learnst-b.herokuapp.com/api/categories');
+export const getCategories = () => http.get('/categories');

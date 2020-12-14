@@ -1,5 +1,3 @@
-import axios from 'axios';
-require('dotenv').config();
+import http from './http';
 
-export const getLevels = () =>
-  axios('https://learnst-b.herokuapp.com/api/levels');
+export const getLevels = () => http.get('/levels');

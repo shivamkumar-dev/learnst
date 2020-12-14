@@ -1,14 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Button from '../common/button';
 import PropTypes from 'prop-types';
 
-const Card = ({ item }) => {
+const ResourceCard = ({ item }) => {
   const { title, resourceUrl, coverUrl, level } = item;
 
   return (
     <div className='col text-center'>
       <div className='card'>
-        <img src={coverUrl} className='card-img-top' alt={title} />
+        <img
+          src={coverUrl}
+          style={{ height: 150 }}
+          className='card-img-top'
+          alt={title}
+        />
         <div className='card-body'>
           <h4 className='card-title'>{title}</h4>
           <h6>Level: {level.name}</h6>
@@ -20,14 +25,18 @@ const Card = ({ item }) => {
           >
             Go To Resource
           </a>
+          <div className='row-col m-3'>
+            <Button className='btn btn-warning me-3' label='Update' />
+            <Button className='btn btn-danger ms-3' label='Delete' />
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-Card.propTypes = {
+ResourceCard.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
-export default Card;
+export default ResourceCard;

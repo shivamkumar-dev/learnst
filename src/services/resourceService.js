@@ -1,5 +1,3 @@
-import axios from 'axios';
-require('dotenv').config();
+import http from './http';
 
-export const getResources = () =>
-  axios('https://learnst-b.herokuapp.com/api/resources');
+export const getResources = () => http.get('/resources');
