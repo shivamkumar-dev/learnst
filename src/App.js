@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Quizzes from './components/quizzes';
+import Quizzes from './components/quiz/quizzes';
 import Resource from './components/resource/resources';
 import Home from './components/home';
 import Navbar from './components/navbar';
@@ -14,21 +14,11 @@ function App() {
       <Navbar />
       <div className='container'>
         <Switch>
-          <Route path='/signup'>
-            <SignupForm />
-          </Route>
-          <Route path='/login'>
-            <LoginForm />
-          </Route>
-          <Route path='/quizzes'>
-            <Quizzes />
-          </Route>
-          <Route path='/resources'>
-            <Resource />
-          </Route>
-          <Route exact path='/'>
-            <Home />
-          </Route>
+          <Route path='/signup' component={SignupForm} />
+          <Route path='/login' component={LoginForm} />
+          <Route path='/quizzes' component={Quizzes} />
+          <Route path='/resources' component={Resource} />
+          <Route exact path='/' component={Home} />
         </Switch>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Joi from 'joi';
 import Input from './common/input';
 import Button from './common/button';
-import { validate, validateProperty } from './common/formValidation';
+import { validate, validateProperty } from '../utils/formValidation';
 
 const LoginForm = () => {
   const [account, setAccount] = useState({ email: '', password: '' });

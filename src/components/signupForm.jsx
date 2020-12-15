@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Joi from 'joi';
 import Input from './common/input';
 import Button from './common/button';
-import { validate, validateProperty } from './common/formValidation';
+import { validate, validateProperty } from '../utils/formValidation';
 
 const SignupForm = () => {
   const [account, setAccount] = useState({ name: '', email: '', password: '' });
@@ -14,7 +14,7 @@ const SignupForm = () => {
       .email({ tlds: { allow: false } })
       .required()
       .label('Email'),
-    password: Joi.string().required().label('Password'),
+    password: Joi.string().min(5).required().label('Password'),
   });
 
   const handleSubmit = (e) => {

@@ -1,12 +1,9 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav
-      className='navbar navbar-expand-lg navbar-dark bg-dark'
-      aria-label='Eighth navbar example'
-    >
+    <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container'>
         <Link className='navbar-brand' to='/'>
           Learnst: Learn & Test
@@ -16,41 +13,39 @@ const Navbar = () => {
           type='button'
           data-bs-toggle='collapse'
           data-bs-target='#navbarsExample07'
-          aria-controls='navbarsExample07'
           aria-expanded='false'
-          aria-label='Toggle navigation'
         >
           <span className='navbar-toggler-icon'></span>
         </button>
 
         <div className='collapse navbar-collapse' id='navbarsExample07'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
-            <li className='nav-item active'>
-              <NavLink className='nav-link' aria-current='page' to='/'>
+            <li className='nav-item'>
+              <Link className='nav-link' aria-current='page' to='/'>
                 Home
-              </NavLink>
+              </Link>
             </li>
             <li className='nav-item'>
-              <NavLink className='nav-link' to='/quizzes'>
+              <Link className='nav-link' to='/quizzes'>
                 Quizzes
-              </NavLink>
+              </Link>
             </li>
             <li className='nav-item'>
-              <NavLink className='nav-link' to='/resources'>
+              <Link className='nav-link' to='/resources'>
                 Resources
-              </NavLink>
+              </Link>
             </li>
           </ul>
-          <NavLink className='nav-link' to='/login'>
+          <Link className='nav-link' to='/login'>
             <button type='button' className='btn btn-outline-warning'>
               Login
             </button>
-          </NavLink>
-          <NavLink className='nav-link' to='/signup'>
+          </Link>
+          <Link className='nav-link' to='/signup'>
             <button type='button' className='btn btn-outline-warning'>
               Signup
             </button>
-          </NavLink>
+          </Link>
         </div>
       </div>
     </nav>

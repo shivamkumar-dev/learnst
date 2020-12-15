@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import ResourceCard from './resourceCard';
+import QuizCard from './quizCard';
 import Dropdown from '../common/dropdown';
 import Button from '../common/button';
-import { getResources } from '../../services/resourceService';
+import { getQuizzes } from '../../services/quizService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
 import filter from '../../utils/filter';
 
-const Resource = () => {
+const Quizzes = () => {
   //  States
-  const [resources, setResources] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [levels, setLevels] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Category');
@@ -19,9 +19,9 @@ const Resource = () => {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data } = await getResources();
+      const { data } = await getQuizzes();
       if (mounted) {
-        setResources(data);
+        setQuizzes(data);
       }
     })();
     return () => (mounted = false);
@@ -58,8 +58,8 @@ const Resource = () => {
     setSelectedLevel(event.target.value);
   };
 
-  // Filtering Resources
-  const filteredResources = filter(selectedLevel, selectedCategory, resources);
+  // Filtering quizzes
+  const filteredQuizzes = filter(selectedLevel, selectedCategory, quizzes);
 
   return (
     <>
@@ -78,18 +78,18 @@ const Resource = () => {
         />
 
         <div className='col-3'>
-          <Button className='btn btn-primary' label='Add New Resource' />
+          <Button className='btn btn-primary' label='Add New Quiz' />
         </div>
       </div>
 
-      {/* Resource Cards */}
+      {/* Quiz Cards */}
       <div className='row row-cols-1 row-cols-md-4 g-4'>
-        {filteredResources.map((resource) => (
-          <ResourceCard item={resource} key={resource._id} />
+        {filteredQuizzes.map((quiz) => (
+          <QuizCard key={quiz._id} item={quiz} />
         ))}
       </div>
     </>
   );
 };
 
-export default Resource;
+export default Quizzes;
