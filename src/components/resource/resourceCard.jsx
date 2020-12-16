@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../common/button';
 import PropTypes from 'prop-types';
 
 const ResourceCard = ({ item }) => {
@@ -26,8 +25,8 @@ const ResourceCard = ({ item }) => {
             Go To Resource
           </a>
           <div className='row-col m-3'>
-            <Button className='btn btn-warning me-3' label='Update' />
-            <Button className='btn btn-danger ms-3' label='Delete' />
+            <button className='btn btn-warning me-3'>Update</button>
+            <button className='btn btn-danger me-3'>Delete</button>
           </div>
         </div>
       </div>

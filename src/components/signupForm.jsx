@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Joi from 'joi';
 import Input from './common/input';
-import Button from './common/button';
 import { validate, validateProperty } from '../utils/formValidation';
 
 const SignupForm = () => {
@@ -70,7 +69,9 @@ const SignupForm = () => {
           onChange={handleChange}
           error={errors.password}
         />
-        <Button type='submit' className='btn btn-primary' label='Signup' />
+        <button type='submit' className='btn btn-primary'>
+          Signup
+        </button>
       </form>
     </>
   );

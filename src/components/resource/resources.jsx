@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ResourceCard from './resourceCard';
 import Dropdown from '../common/dropdown';
-import Button from '../common/button';
 import { getResources } from '../../services/resourceService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
@@ -78,7 +77,7 @@ const Resource = () => {
         />
 
         <div className='col-3'>
-          <Button className='btn btn-primary' label='Add New Resource' />
+          <button className='btn btn-primary'>Add New Resource</button>
         </div>
       </div>
 

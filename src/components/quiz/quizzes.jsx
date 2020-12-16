@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import QuizCard from './quizCard';
 import Dropdown from '../common/dropdown';
-import Button from '../common/button';
 import { getQuizzes } from '../../services/quizService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
@@ -16,6 +15,7 @@ const Quizzes = () => {
   const [selectedLevel, setSelectedLevel] = useState('Level');
 
   // Getting Datas from API
+  // --Quizzes
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -27,6 +27,7 @@ const Quizzes = () => {
     return () => (mounted = false);
   }, []);
 
+  // --Categories
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -38,6 +39,7 @@ const Quizzes = () => {
     return () => (mounted = false);
   }, []);
 
+  // --Levels
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -63,7 +65,7 @@ const Quizzes = () => {
 
   return (
     <>
-      {/* Dropdowns */}
+      {/* Category and Level Dropdowns */}
       <div className='row m-4'>
         <Dropdown
           title='Category'
@@ -78,11 +80,11 @@ const Quizzes = () => {
         />
 
         <div className='col-3'>
-          <Button className='btn btn-primary' label='Add New Quiz' />
+          <button className='btn btn-primary'>Add New Quiz</button>
         </div>
       </div>
 
-      {/* Quiz Cards */}
+      {/* Display All Quizzes On Quizzes Section */}
       <div className='row row-cols-1 row-cols-md-4 g-4'>
         {filteredQuizzes.map((quiz) => (
           <QuizCard key={quiz._id} item={quiz} />
