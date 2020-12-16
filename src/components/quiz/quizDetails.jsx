@@ -27,7 +27,7 @@ const QuizDetails = ({ match, history }) => {
   // Display Quiz
   return (
     <div className='text-center my-4'>
-      <h1>{quiz.title}</h1>
+      <h1>{title}</h1>
       <div className='wrapper my-4'>
         <QuestionBox quiz={quiz} />
       </div>

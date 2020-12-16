@@ -64,7 +64,9 @@ const QuestionBox = ({ quiz }) => {
           </div>
         </div>
       ))}
-      <button onClick={handleScore}>Submit</button>
+      <button disabled={answerBox.length !== quiz.length} onClick={handleScore}>
+        Submit
+      </button>
     </>
   );
 };
