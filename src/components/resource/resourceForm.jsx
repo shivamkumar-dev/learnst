@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import Joi from 'joi';
 import Input from '../common/input';
 import Select from '../common/select';
@@ -7,7 +8,7 @@ import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
 import { validate, validateProperty } from '../../utils/formValidation';
 
-const ResourceForm = ({ match, history }) => {
+const ResourceForm = () => {
   // States
   const [resource, setResource] = useState({
     title: '',
@@ -31,6 +32,7 @@ const ResourceForm = ({ match, history }) => {
   });
 
   // Getting Datas from API
+  // -- Categories and Levels
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -44,15 +46,17 @@ const ResourceForm = ({ match, history }) => {
     return () => (mounted = false);
   }, []);
 
+  // --Resource
+  let { id } = useParams();
+  let history = useHistory();
   useEffect(() => {
-    const resourceId = match.params.id;
+    const resourceId = id;
     if (resourceId === 'new') return;
 
     let mounted = true;
     (async () => {
       const { data: oldResource } = await getResource(resourceId);
-      console.log(oldResource);
-      if (!oldResource) return;
+      if (!oldResource) return; //history.replace('/not-found');
 
       // Extracting Properties
       const mapToViewModel = (oldResource) => ({
@@ -68,7 +72,7 @@ const ResourceForm = ({ match, history }) => {
       }
     })();
     return () => (mounted = false);
-  }, [match, history]);
+  }, [id, history]);
 
   // Handlers
   const handleSubmit = (e) => {

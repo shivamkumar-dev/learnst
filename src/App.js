@@ -16,14 +16,29 @@ function App() {
       <Navbar />
       <div className='container'>
         <Switch>
-          <Route path='/signup' component={SignupForm} />
-          <Route path='/login' component={LoginForm} />
-          <Route path='/quizzes/:id' component={QuizDetails} />
-          <Route path='/quizzes' component={Quizzes} />
-          <Route path='/resources/:id' component={ResourceForm} />
-          <Route path='/resources' component={Resource} />
+          <Route path='/signup'>
+            <SignupForm />
+          </Route>
+          <Route path='/login'>
+            <LoginForm />
+          </Route>
+          <Route path='/quizzes/:id'>
+            <QuizDetails />
+          </Route>
+          <Route path='/quizzes'>
+            <Quizzes />
+          </Route>
+          <Route path='/resources/:id'>
+            <ResourceForm />
+          </Route>
+          <Route path='/resources'>
+            <Resource />
+          </Route>
+          <Route path='/not-found'>
+            <NotFound />
+          </Route>
           <Redirect path='/' exact to='/quizzes' />
-          <Redirect to='/not-found' component={NotFound} />
+          <Redirect to='/not-found' />
         </Switch>
       </div>
     </div>

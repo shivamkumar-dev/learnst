@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { getQuiz } from '../../services/quizService';
 import QuestionBox from './questionBox';
-const QuizDetails = ({ match, history }) => {
+const QuizDetails = () => {
   // State
   const [Quiz, setQuiz] = useState([]);
 
+  const { id } = useParams();
+  const history = useHistory();
+
   // Getting Quiz From API
-  const quizId = match.params.id;
   useEffect(() => {
+    const quizId = id;
     let mounted = true;
     (async () => {
       const { data } = await getQuiz(quizId);
@@ -16,7 +20,7 @@ const QuizDetails = ({ match, history }) => {
       }
     })();
     return () => (mounted = false);
-  }, [quizId]);
+  }, [id]);
 
   // Display "Loading..." until data fetched from API
   if (Quiz.length === 0)
