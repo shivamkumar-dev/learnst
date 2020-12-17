@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ResourceCard from './resourceCard';
 import Dropdown from '../common/dropdown';
 import { getResources } from '../../services/resourceService';
@@ -7,7 +8,7 @@ import { getLevels } from '../../services/levelService';
 import filter from '../../utils/filter';
 
 const Resource = () => {
-  //  States
+  // States
   const [resources, setResources] = useState([]);
   const [categories, setCategories] = useState([]);
   const [levels, setLevels] = useState([]);
@@ -18,31 +19,13 @@ const Resource = () => {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data } = await getResources();
+      const resources = await getResources();
+      const categories = await getCategories();
+      const levels = await getLevels();
       if (mounted) {
-        setResources(data);
-      }
-    })();
-    return () => (mounted = false);
-  }, []);
-
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const { data } = await getCategories();
-      if (mounted) {
-        setCategories(data);
-      }
-    })();
-    return () => (mounted = false);
-  }, []);
-
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const { data } = await getLevels();
-      if (mounted) {
-        setLevels(data);
+        setResources(resources.data);
+        setCategories(categories.data);
+        setLevels(levels.data);
       }
     })();
     return () => (mounted = false);
@@ -62,7 +45,7 @@ const Resource = () => {
 
   return (
     <>
-      {/* Dropdowns */}
+      {/* Category and Level Dropdowns */}
       <div className='row m-4'>
         <Dropdown
           title='Category'
@@ -77,11 +60,13 @@ const Resource = () => {
         />
 
         <div className='col-3'>
-          <button className='btn btn-primary'>Add New Resource</button>
+          <Link to='/resources/new' className='btn btn-primary'>
+            Add New Resource
+          </Link>
         </div>
       </div>
 
-      {/* Resource Cards */}
+      {/* Display All Resources On Resources Section */}
       <div className='row row-cols-1 row-cols-md-4 g-4'>
         {filteredResources.map((resource) => (
           <ResourceCard item={resource} key={resource._id} />

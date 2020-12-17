@@ -15,7 +15,7 @@ const QuizCard = ({ item }) => {
             Start Quiz
           </Link>
           <div className='row-col m-3'>
-            <Link to={`quizzes/update/${_id}`} className='btn btn-warning me-3'>
+            <Link to='#' className='btn btn-warning me-3'>
               Update
             </Link>
             <button className='btn btn-danger me-3'>Delete</button>

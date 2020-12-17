@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const ResourceCard = ({ item }) => {
-  const { title, resourceUrl, coverUrl, level } = item;
+  const { _id, title, resourceUrl, coverUrl, level } = item;
 
   return (
     <div className='col text-center'>
@@ -25,7 +26,9 @@ const ResourceCard = ({ item }) => {
             Go To Resource
           </a>
           <div className='row-col m-3'>
-            <button className='btn btn-warning me-3'>Update</button>
+            <Link to={`/resources/${_id}`} className='btn btn-warning me-3'>
+              Update
+            </Link>
             <button className='btn btn-danger me-3'>Delete</button>
           </div>
         </div>

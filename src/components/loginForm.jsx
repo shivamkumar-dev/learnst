@@ -4,9 +4,11 @@ import Input from './common/input';
 import { validate, validateProperty } from '../utils/formValidation';
 
 const LoginForm = () => {
+  // States
   const [account, setAccount] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
 
+  // Login Form Schema
   const schema = Joi.object().keys({
     email: Joi.string()
       .email({ tlds: { allow: false } })
@@ -18,6 +20,7 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate whole Form on Submition
     const errors = validate(account, schema);
     if (errors) setErrors(errors);
     else setErrors({});
@@ -29,6 +32,7 @@ const LoginForm = () => {
   };
 
   const handleChange = ({ target: input }) => {
+    // Validate Individual Form Elements
     const newErrors = { ...errors };
     const errorMessage = validateProperty(input, schema);
     if (errorMessage) newErrors[input.name] = errorMessage;
@@ -40,6 +44,7 @@ const LoginForm = () => {
     setAccount(newAccount);
   };
 
+  // Form
   return (
     <>
       <h1 className='py-5'>Login</h1>

@@ -15,37 +15,16 @@ const Quizzes = () => {
   const [selectedLevel, setSelectedLevel] = useState('Level');
 
   // Getting Datas from API
-  // --Quizzes
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data } = await getQuizzes();
+      const quizzes = await getQuizzes();
+      const categories = await getCategories();
+      const levels = await getLevels();
       if (mounted) {
-        setQuizzes(data);
-      }
-    })();
-    return () => (mounted = false);
-  }, []);
-
-  // --Categories
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const { data } = await getCategories();
-      if (mounted) {
-        setCategories(data);
-      }
-    })();
-    return () => (mounted = false);
-  }, []);
-
-  // --Levels
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const { data } = await getLevels();
-      if (mounted) {
-        setLevels(data);
+        setQuizzes(quizzes.data);
+        setCategories(categories.data);
+        setLevels(levels.data);
       }
     })();
     return () => (mounted = false);

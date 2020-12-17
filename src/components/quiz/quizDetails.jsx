@@ -1,43 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { getQuizzes } from '../../services/quizService';
+import { getQuiz } from '../../services/quizService';
 import QuestionBox from './questionBox';
 const QuizDetails = ({ match, history }) => {
   // State
-  const [quizzes, setQuizzes] = useState([]);
+  const [Quiz, setQuiz] = useState([]);
 
-  // Getting All Quizzes From API
+  // Getting Quiz From API
+  const quizId = match.params.id;
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data } = await getQuizzes();
+      const { data } = await getQuiz(quizId);
       if (mounted) {
-        setQuizzes(data);
+        setQuiz(data);
       }
     })();
     return () => (mounted = false);
-  }, []);
+  }, [quizId]);
 
   // Display "Loading..." until data fetched from API
-  if (quizzes.length === 0) return <h1>Loading...</h1>;
-
-  // Filtering Selected Quiz with  Quiz ID
-  const [filteredQuiz] = quizzes.filter((q) => q._id === match.params.id);
-  const { title, quiz } = filteredQuiz;
+  if (Quiz.length === 0)
+    return (
+      <>
+        <h1>Loading...</h1>
+      </>
+    );
 
   // Display Quiz
   return (
-    <div className='text-center my-4'>
-      <h1>{title}</h1>
-      <div className='wrapper my-4'>
-        <QuestionBox quiz={quiz} />
+    <>
+      <div className='text-center my-4'>
+        <h1>{Quiz.title}</h1>
+        <div className='wrapper my-4'>
+          <QuestionBox quiz={Quiz.quiz} />
+        </div>
+        <button
+          onClick={() => history.push('/quizzes')}
+          className='btn btn-primary'
+        >
+          Back
+        </button>
       </div>
-      <button
-        onClick={() => history.push('/quizzes')}
-        className='btn btn-primary'
-      >
-        Back
-      </button>
-    </div>
+    </>
   );
 };
 
