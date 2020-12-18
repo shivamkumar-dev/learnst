@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ResourceCard from './resourceCard';
 import Dropdown from '../common/dropdown';
-import { getResources } from '../../services/resourceService';
+import { getResources, deleteResource } from '../../services/resourceService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
 import filter from '../../utils/filter';
@@ -40,6 +40,20 @@ const Resource = () => {
     setSelectedLevel(event.target.value);
   };
 
+  // Delete Resource
+  const handleDelete = async (resourceId) => {
+    const originalResources = [...resources];
+    const newResources = originalResources.filter((r) => r._id !== resourceId);
+    setResources(newResources);
+
+    try {
+      await deleteResource(resourceId);
+    } catch (ex) {
+      if (ex) window.alert('Something Went Wrong');
+      setResources(originalResources);
+    }
+  };
+
   // Filtering Resources
   const filteredResources = filter(selectedLevel, selectedCategory, resources);
 
@@ -69,7 +83,11 @@ const Resource = () => {
       {/* Display All Resources On Resources Section */}
       <div className='row row-cols-1 row-cols-md-4 g-4'>
         {filteredResources.map((resource) => (
-          <ResourceCard item={resource} key={resource._id} />
+          <ResourceCard
+            item={resource}
+            key={resource._id}
+            onDelete={(_id) => handleDelete(_id)}
+          />
         ))}
       </div>
     </>

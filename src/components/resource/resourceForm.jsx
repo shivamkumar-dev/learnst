@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Joi from 'joi';
 import Input from '../common/input';
 import Select from '../common/select';
-import { getResource } from '../../services/resourceService';
+import { getResource, saveResource } from '../../services/resourceService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
 import { validate, validateProperty } from '../../utils/formValidation';
@@ -21,6 +21,9 @@ const ResourceForm = () => {
   const [levels, setLevels] = useState([]);
   const [errors, setErrors] = useState({});
 
+  const { id: resourceId } = useParams();
+  const history = useHistory();
+
   // Resource Form Schema
   const schema = Joi.object().keys({
     _id: Joi.string(),
@@ -32,7 +35,7 @@ const ResourceForm = () => {
   });
 
   // Getting Datas from API
-  // -- Categories and Levels
+  // --Categories & Levels
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -46,36 +49,37 @@ const ResourceForm = () => {
     return () => (mounted = false);
   }, []);
 
-  // --Resource
-  let { id } = useParams();
-  let history = useHistory();
+  //--Resource
   useEffect(() => {
-    const resourceId = id;
     if (resourceId === 'new') return;
 
     let mounted = true;
     (async () => {
-      const { data: oldResource } = await getResource(resourceId);
-      if (!oldResource) return; //history.replace('/not-found');
-
-      // Extracting Properties
-      const mapToViewModel = (oldResource) => ({
-        title: oldResource.title,
-        resourceUrl: oldResource.resourceUrl,
-        coverUrl: oldResource.coverUrl,
-        categoryId: oldResource.category._id,
-        levelId: oldResource.level._id,
-      });
-
-      if (mounted) {
-        setResource(mapToViewModel(oldResource));
+      try {
+        const oldResource = await getResource(resourceId);
+        if (mounted) {
+          setResource(mapToViewModel(oldResource));
+        }
+      } catch (ex) {
+        if (ex) return history.replace('/not-found');
       }
     })();
+
     return () => (mounted = false);
-  }, [id, history]);
+  }, [resourceId, history]);
+
+  // Extracting Properties
+  const mapToViewModel = ({ data }) => ({
+    _id: data._id,
+    title: data.title,
+    resourceUrl: data.resourceUrl,
+    coverUrl: data.coverUrl,
+    categoryId: data.category._id,
+    levelId: data.level._id,
+  });
 
   // Handlers
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate whole Form on Submition
@@ -85,9 +89,9 @@ const ResourceForm = () => {
 
     if (errors) return;
 
-    // call the server
-    // saveResource(resource)
-    console.log('submitted');
+    // Save Updated or New Resource
+    await saveResource(resource, resourceId);
+    history.push('/resources');
   };
 
   const handleChange = ({ target: input }) => {
@@ -147,7 +151,11 @@ const ResourceForm = () => {
           items={levels}
           error={errors.levelId}
         />
-        <button type='submit' className='btn btn-primary my-4'>
+        <button
+          type='submit'
+          onClick={handleSubmit}
+          className='btn btn-primary my-4'
+        >
           Save
         </button>
       </form>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const ResourceCard = ({ item }) => {
+const ResourceCard = ({ item, onDelete }) => {
   const { _id, title, resourceUrl, coverUrl, level } = item;
 
   return (
@@ -29,7 +29,14 @@ const ResourceCard = ({ item }) => {
             <Link to={`/resources/${_id}`} className='btn btn-warning me-3'>
               Update
             </Link>
-            <button className='btn btn-danger me-3'>Delete</button>
+            <button
+              onClick={() => {
+                onDelete(_id);
+              }}
+              className='btn btn-danger me-3'
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
