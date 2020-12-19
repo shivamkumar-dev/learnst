@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
+import NewQuiz from './components/quiz/newQuizForm';
 import QuizDetails from './components/quiz/quizDetails';
 import Quizzes from './components/quiz/quizzes';
 import ResourceForm from './components/resource/resourceForm';
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route path='/login'>
             <LoginForm />
+          </Route>
+          <Route path='/quizzes/new'>
+            <NewQuiz />
           </Route>
           <Route path='/quizzes/:id'>
             <QuizDetails />

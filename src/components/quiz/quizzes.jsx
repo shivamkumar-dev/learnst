@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import QuizCard from './quizCard';
 import Dropdown from '../common/dropdown';
 import { getQuizzes } from '../../services/quizService';
@@ -59,7 +60,9 @@ const Quizzes = () => {
         />
 
         <div className='col-3'>
-          <button className='btn btn-primary'>Add New Quiz</button>
+          <Link to='/quizzes/new' className='btn btn-primary'>
+            Add New Quiz
+          </Link>
         </div>
       </div>
 
