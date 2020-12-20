@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Joi from 'joi';
 import Input from '../common/input';
 import Select from '../common/select';
-import AnswerSelect from '../common/answerSelect';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
 import { saveQuiz } from '../../services/quizService';
+import { validate } from '../../utils/formValidation';
 
 const NewQuiz = () => {
   // States
@@ -15,14 +16,36 @@ const NewQuiz = () => {
     levelId: '',
     quiz: [],
   });
-  const [categories, setCategories] = useState([]);
-  const [levels, setLevels] = useState([]);
   const [questionStore, setQuestionStore] = useState([
     { question: '', options: ['', ''], answer: '' },
   ]);
+  const [categories, setCategories] = useState([]);
+  const [levels, setLevels] = useState([]);
 
   const history = useHistory();
 
+  // quizStore Schema
+  const quizStoreSchema = Joi.object({
+    //_id: Joi.string(),
+    title: Joi.string().required().label('Title'),
+    categoryId: Joi.string().required().label('Category'),
+    levelId: Joi.string().required().label('Level'),
+    quiz: Joi.array().label('Quiz'),
+  });
+
+  // QuestionStore Schema
+  const questionStoreSchema = Joi.array().items(
+    Joi.object({
+      question: Joi.string().required().label('Question'),
+      options: Joi.array()
+        .items(Joi.string().label('Option'))
+        .min(2)
+        .required(),
+      answer: Joi.string().required().label('Answer'),
+    })
+  );
+
+  // Getting Datas from API
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -93,6 +116,13 @@ const NewQuiz = () => {
     let newQuestionStore = [...questionStore];
     let question = { ...newQuestionStore[i] };
     let newOptions = [...question.options];
+    if (l === parseInt(question.answer)) {
+      question.answer = '';
+      newOptions.splice(l, 1);
+      question.options = newOptions;
+      newQuestionStore[i] = question;
+      setQuestionStore(newQuestionStore);
+    }
     newOptions.splice(l, 1);
     question.options = newOptions;
     newQuestionStore[i] = question;
@@ -107,7 +137,15 @@ const NewQuiz = () => {
     let newQuizStore = { ...quizStore };
     newQuizStore.quiz = newQuestionStore;
 
-    // Save Updated or New Resource
+    // Validate whole Form on Submition
+    const quizStoreErrors = validate(quizStore, quizStoreSchema);
+    const questionStoreErrors = validate(questionStore, questionStoreSchema);
+    if (questionStoreErrors || quizStoreErrors)
+      return window.alert(
+        'Please fill all the details and select "Right answer" for each Question.'
+      );
+
+    // Save New Quiz
     await saveQuiz(newQuizStore);
     history.push('/quizzes');
   };
@@ -140,16 +178,22 @@ const NewQuiz = () => {
             <div key={i}>
               <Input
                 name={`question`}
-                label={`Question${i + 1}`}
+                label={`Question ${i + 1}`}
                 value={q.question}
                 onChange={(e) => handleQuestionStoreChange(e, i)}
               />
               {q.options.map((o, l) => {
                 return (
                   <div key={l}>
+                    <input
+                      type='radio'
+                      name='answer'
+                      value={l}
+                      onChange={(e) => handleQuestionStoreChange(e, i)}
+                    />
                     <Input
                       name={`option${l + 1}`}
-                      label={`Option${l + 1}`}
+                      label={`Option ${l + 1}`}
                       value={o}
                       onChange={(e) => handleOptionChange(e, l, i)}
                     />
@@ -165,12 +209,6 @@ const NewQuiz = () => {
               {/* Add Option */}
               <button onClick={() => addOption(i)}>Add Option</button>
 
-              <AnswerSelect
-                label='Select Right Answer'
-                name='answer'
-                items={q.options}
-                onChange={(e) => handleQuestionStoreChange(e, i)}
-              />
               {/* Remove Question */}
               {questionStore.length > 1 && (
                 <button onClick={() => removeQuestion(i)}>

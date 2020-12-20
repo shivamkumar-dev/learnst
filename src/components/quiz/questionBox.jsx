@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const QuestionBox = ({ quiz }) => {
   // States
   const [answerBox, setAnswerBox] = useState([]);
   const [score, setScore] = useState(0);
+  const [displayResult, setDisplayResult] = useState(false);
+  const history = useHistory();
 
   // Alraedy Attempted & New Attempted Question Handler
   const handleAnswer = ({ target }) => {
@@ -31,40 +34,60 @@ const QuestionBox = ({ quiz }) => {
   };
 
   // Score Handler
-  const handleScore = () => {
+  const handleSubmit = () => {
     let countScore = 0;
     answerBox.map((a) =>
       a.selectedAnswer === a.answer ? (countScore = countScore + 1) : null
     );
     setScore(countScore);
+    setDisplayResult(true);
   };
 
   // Display Result
-  if (score > 0)
+  if (displayResult)
     return (
-      <h1>
-        Got {score}...Attempted {answerBox.length}...Total Question{' '}
-        {quiz.length}
-      </h1>
+      <>
+        <h1>
+          Got {score}...Attempted {answerBox.length}...Total Question{' '}
+          {quiz.length}
+        </h1>
+        <button
+          onClick={() => history.push('/quizzes')}
+          className='btn btn-primary me-4'
+        >
+          Back
+        </button>
+      </>
     );
 
   // Display Questions
   return (
     <>
-      {quiz.map((q) => (
+      {quiz.map((q, l) => (
         <div key={q._id}>
-          <h5>Q. {q.question}</h5>
+          <h5>
+            Q{`${l + 1}.)`} {q.question}
+          </h5>
           <div onChange={(e) => handleAnswer(e)}>
             {q.options.map((option, i) => (
               <span key={i}>
-                <input type='radio' value={option} name={q.question} />
+                {`${i + 1}.)`}{' '}
+                <input type='radio' value={i} name={q.question} />
                 {option}
+                <br />
               </span>
             ))}
           </div>
+          <br />
         </div>
       ))}
-      <button disabled={answerBox.length !== quiz.length} onClick={handleScore}>
+      <button
+        onClick={() => history.push('/quizzes')}
+        className='btn btn-primary me-4'
+      >
+        Back
+      </button>
+      <button onClick={handleSubmit} className='btn btn-primary my-4'>
         Submit
       </button>
     </>

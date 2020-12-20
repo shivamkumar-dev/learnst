@@ -6,10 +6,8 @@ const QuizDetails = () => {
   // State
   const [Quiz, setQuiz] = useState([]);
 
-  const { id } = useParams();
-  const history = useHistory();
-
   // Getting Quiz From API
+  const { id } = useParams();
   useEffect(() => {
     const quizId = id;
     let mounted = true;
@@ -33,17 +31,12 @@ const QuizDetails = () => {
   // Display Quiz
   return (
     <>
-      <div className='text-center my-4'>
+      <div className='text-start my-4'>
         <h1>{Quiz.title}</h1>
-        <div className='wrapper my-4'>
+        <br />
+        <div className='container'>
           <QuestionBox quiz={Quiz.quiz} />
         </div>
-        <button
-          onClick={() => history.push('/quizzes')}
-          className='btn btn-primary'
-        >
-          Back
-        </button>
       </div>
     </>
   );

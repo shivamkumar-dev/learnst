@@ -25,11 +25,11 @@ const ResourceForm = () => {
   const history = useHistory();
 
   // Resource Form Schema
-  const schema = Joi.object().keys({
+  const schema = Joi.object({
     _id: Joi.string(),
     title: Joi.string().required().label('Title'),
     resourceUrl: Joi.string().required().label('Resource Url'),
-    coverUrl: Joi.string().required().label('Cover Url'),
+    coverUrl: Joi.string().required().label('Cover Image Url'),
     categoryId: Joi.string().required().label('Category'),
     levelId: Joi.string().required().label('Level'),
   });
