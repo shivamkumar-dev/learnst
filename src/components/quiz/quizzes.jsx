@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import QuizCard from './quizCard';
 import Dropdown from '../common/dropdown';
-import { getQuizzes } from '../../services/quizService';
+import { getQuizzes, deleteQuiz } from '../../services/quizService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
 import filter from '../../utils/filter';
@@ -40,6 +40,20 @@ const Quizzes = () => {
     setSelectedLevel(event.target.value);
   };
 
+  // Delete Quiz
+  const handleDelete = async (quizId) => {
+    const originalQuizzes = [...quizzes];
+    const newQuizzes = originalQuizzes.filter((q) => q._id !== quizId);
+    setQuizzes(newQuizzes);
+
+    try {
+      await deleteQuiz(quizId);
+    } catch (ex) {
+      if (ex) window.alert('Something Went Wrong');
+      setQuizzes(originalQuizzes);
+    }
+  };
+
   // Filtering quizzes
   const filteredQuizzes = filter(selectedLevel, selectedCategory, quizzes);
 
@@ -69,7 +83,7 @@ const Quizzes = () => {
       {/* Display All Quizzes On Quizzes Section */}
       <div className='row row-cols-1 row-cols-md-4 g-4'>
         {filteredQuizzes.map((quiz) => (
-          <QuizCard key={quiz._id} item={quiz} />
+          <QuizCard key={quiz._id} onDelete={handleDelete} item={quiz} />
         ))}
       </div>
     </>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const QuizCard = ({ item }) => {
+const QuizCard = ({ item, onDelete }) => {
   const { title, level, category, _id } = item;
-  // Display All Quizzes On Quizzes Section
+
   return (
     <div className='col-sm-6 text-center'>
       <div className='card'>
@@ -15,10 +15,12 @@ const QuizCard = ({ item }) => {
             Start Quiz
           </Link>
           <div className='row-col m-3'>
-            <Link to='#' className='btn btn-warning me-3'>
-              Update
-            </Link>
-            <button className='btn btn-danger me-3'>Delete</button>
+            <button
+              onClick={() => onDelete(_id)}
+              className='btn btn-danger me-3'
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
