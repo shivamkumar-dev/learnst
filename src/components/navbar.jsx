@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container'>
@@ -13,7 +13,9 @@ const Navbar = () => {
           type='button'
           data-bs-toggle='collapse'
           data-bs-target='#navbarsExample07'
+          aria-controls='navbarsExample07'
           aria-expanded='false'
+          aria-label='Toggle navigation'
         >
           <span className='navbar-toggler-icon'></span>
         </button>
@@ -31,16 +33,32 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <Link className='nav-link' to='/login'>
-            <button type='button' className='btn btn-outline-warning'>
-              Login
-            </button>
-          </Link>
-          <Link className='nav-link' to='/signup'>
-            <button type='button' className='btn btn-outline-warning'>
-              Signup
-            </button>
-          </Link>
+          {!user && (
+            <>
+              <Link className='nav-link' to='/login'>
+                <button type='button' className='btn btn-outline-warning'>
+                  Login
+                </button>
+              </Link>
+              <Link className='nav-link' to='/signup'>
+                <button type='button' className='btn btn-outline-warning'>
+                  Signup
+                </button>
+              </Link>
+            </>
+          )}
+          {user && (
+            <>
+              <Link className='nav-link' to='/profile'>
+                {user.name}
+              </Link>
+              <Link className='nav-link' to='/logout'>
+                <button type='button' className='btn btn-outline-warning'>
+                  Logout
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

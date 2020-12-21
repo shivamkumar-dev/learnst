@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import NewQuiz from './components/quiz/newQuizForm';
 import QuizDetails from './components/quiz/quizDetails';
@@ -7,14 +7,23 @@ import ResourceForm from './components/resource/resourceForm';
 import Resource from './components/resource/resources';
 import Navbar from './components/navbar';
 import LoginForm from './components/loginForm';
+import Logout from './components/logout';
 import SignupForm from './components/signupForm';
 import NotFound from './components/notFound';
+import { getCurrentUser } from './services/authService';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    setUser(user);
+  }, []);
+
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} />
       <div className='container'>
         <Switch>
           <Route path='/signup'>
@@ -22,6 +31,9 @@ function App() {
           </Route>
           <Route path='/login'>
             <LoginForm />
+          </Route>
+          <Route path='/logout'>
+            <Logout />
           </Route>
           <Route path='/quizzes/new'>
             <NewQuiz />
@@ -47,6 +59,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Joi from 'joi';
 import Input from './common/input';
 import { validate, validateProperty } from '../utils/formValidation';
+import { login } from '../services/authService';
 
 const LoginForm = () => {
   // States
@@ -17,7 +18,8 @@ const LoginForm = () => {
     password: Joi.string().required().label('Password'),
   });
 
-  const handleSubmit = (e) => {
+  // Handlers
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate whole Form on Submition
@@ -27,8 +29,17 @@ const LoginForm = () => {
 
     if (errors) return;
 
-    // call the server
-    console.log('submitted');
+    // User Login
+    try {
+      await login(account);
+      window.location = '/';
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const loginErrors = { ...errors };
+        loginErrors.email = ex.response.data;
+        setErrors(loginErrors);
+      }
+    }
   };
 
   const handleChange = ({ target: input }) => {

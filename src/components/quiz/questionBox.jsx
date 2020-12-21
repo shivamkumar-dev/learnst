@@ -72,8 +72,7 @@ const QuestionBox = ({ quiz }) => {
             {q.options.map((option, i) => (
               <span key={i}>
                 {`${i + 1}.)`}{' '}
-                <input type='radio' value={i} name={q.question} />
-                {option}
+                <input type='radio' value={i} name={q.question} /> {option}
                 <br />
               </span>
             ))}
