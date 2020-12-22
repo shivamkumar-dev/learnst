@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getCurrentUser } from '../services/authService';
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
+  const user = getCurrentUser();
+
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container'>
@@ -49,9 +52,7 @@ const Navbar = ({ user }) => {
           )}
           {user && (
             <>
-              <Link className='nav-link' to='/profile'>
-                {user.name}
-              </Link>
+              <p className='navbar-brand'>{user.name}</p>
               <Link className='nav-link' to='/logout'>
                 <button type='button' className='btn btn-outline-warning'>
                   Logout

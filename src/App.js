@@ -10,20 +10,14 @@ import LoginForm from './components/loginForm';
 import Logout from './components/logout';
 import SignupForm from './components/signupForm';
 import NotFound from './components/notFound';
-import { getCurrentUser } from './services/authService';
+import ProtectedRoute from './components/common/protectedRoute';
+import AdminProtectedRoute from './components/common/adminProtectedRoute';
 import './App.css';
 
 const App = () => {
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    const user = getCurrentUser();
-    setUser(user);
-  }, []);
-
   return (
     <div>
-      <Navbar user={user} />
+      <Navbar />
       <div className='container'>
         <Switch>
           <Route path='/signup'>
@@ -35,18 +29,17 @@ const App = () => {
           <Route path='/logout'>
             <Logout />
           </Route>
-          <Route path='/quizzes/new'>
-            <NewQuiz />
-          </Route>
+          <ProtectedRoute path='/quizzes/new' component={<NewQuiz />} />
           <Route path='/quizzes/:id'>
             <QuizDetails />
           </Route>
           <Route path='/quizzes'>
             <Quizzes />
           </Route>
-          <Route path='/resources/:id'>
-            <ResourceForm />
-          </Route>
+          <AdminProtectedRoute
+            path='/resources/:id'
+            component={<ResourceForm />}
+          />
           <Route path='/resources'>
             <Resource />
           </Route>

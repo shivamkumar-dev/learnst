@@ -5,6 +5,7 @@ import Dropdown from '../common/dropdown';
 import { getResources, deleteResource } from '../../services/resourceService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
+import { getAdmin } from '../../services/authService';
 import filter from '../../utils/filter';
 
 const Resource = () => {
@@ -14,6 +15,7 @@ const Resource = () => {
   const [levels, setLevels] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Category');
   const [selectedLevel, setSelectedLevel] = useState('Level');
+  const admin = getAdmin();
 
   // Getting Datas from API
   useEffect(() => {
@@ -73,11 +75,13 @@ const Resource = () => {
           onItemSelect={handleLevelSelect}
         />
 
-        <div className='col-3'>
-          <Link to='/resources/new' className='btn btn-primary'>
-            Add New Resource
-          </Link>
-        </div>
+        {admin && (
+          <div className='col-3'>
+            <Link to='/resources/new' className='btn btn-primary'>
+              Add New Resource
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Display All Resources On Resources Section */}

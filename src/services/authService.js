@@ -30,3 +30,14 @@ export const getCurrentUser = () => {
     return null;
   }
 };
+
+// Get Admin
+export const getAdmin = () => {
+  try {
+    const jwt = localStorage.getItem('token');
+    const user = jwt_decode(jwt);
+    return user.isAdmin;
+  } catch (ex) {
+    return null;
+  }
+};

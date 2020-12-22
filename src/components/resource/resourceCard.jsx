@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { getAdmin } from '../../services/authService';
 
 const ResourceCard = ({ item, onDelete }) => {
   const { _id, title, resourceUrl, coverUrl, level } = item;
+  const admin = getAdmin();
 
   return (
     <div className='col text-center'>
@@ -25,19 +27,21 @@ const ResourceCard = ({ item, onDelete }) => {
           >
             Go To Resource
           </a>
-          <div className='row-col m-3'>
-            <Link to={`/resources/${_id}`} className='btn btn-warning me-3'>
-              Update
-            </Link>
-            <button
-              onClick={() => {
-                onDelete(_id);
-              }}
-              className='btn btn-danger me-3'
-            >
-              Delete
-            </button>
-          </div>
+          {admin && (
+            <div className='row-col m-3'>
+              <Link to={`/resources/${_id}`} className='btn btn-warning me-3'>
+                Update
+              </Link>
+              <button
+                onClick={() => {
+                  onDelete(_id);
+                }}
+                className='btn btn-danger me-3'
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

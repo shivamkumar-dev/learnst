@@ -5,6 +5,7 @@ import Dropdown from '../common/dropdown';
 import { getQuizzes, deleteQuiz } from '../../services/quizService';
 import { getCategories } from '../../services/categoryService';
 import { getLevels } from '../../services/levelService';
+import { getCurrentUser } from '../../services/authService';
 import filter from '../../utils/filter';
 
 const Quizzes = () => {
@@ -14,6 +15,8 @@ const Quizzes = () => {
   const [levels, setLevels] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Category');
   const [selectedLevel, setSelectedLevel] = useState('Level');
+
+  const user = getCurrentUser();
 
   // Getting Datas from API
   useEffect(() => {
@@ -73,17 +76,24 @@ const Quizzes = () => {
           onItemSelect={handleLevelSelect}
         />
 
-        <div className='col-3'>
-          <Link to='/quizzes/new' className='btn btn-primary'>
-            Add New Quiz
-          </Link>
-        </div>
+        {user && (
+          <div className='col-3'>
+            <Link to='/quizzes/new' className='btn btn-primary'>
+              Add New Quiz
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Display All Quizzes On Quizzes Section */}
       <div className='row row-cols-1 row-cols-md-4 g-4'>
         {filteredQuizzes.map((quiz) => (
-          <QuizCard key={quiz._id} onDelete={handleDelete} item={quiz} />
+          <QuizCard
+            key={quiz._id}
+            onDelete={handleDelete}
+            item={quiz}
+            user={user}
+          />
         ))}
       </div>
     </>
