@@ -102,7 +102,9 @@ const NewQuiz = () => {
   };
 
   // Add Option
-  const addOption = (i) => {
+  const addOption = (e, i) => {
+    e.preventDefault();
+
     let newQuestionStore = [...questionStore];
     let question = { ...newQuestionStore[i] };
     let newOptions = [...question.options, ''];
@@ -152,77 +154,113 @@ const NewQuiz = () => {
 
   // Form
   return (
-    <>
-      <div>
-        <h1>New Quiz Form</h1>
-        <Input
-          name='title'
-          label='Title'
-          value={quizStore.title}
-          onChange={handleQuizStoreChange}
-        />
-        <Select
-          name='categoryId'
-          label='Category'
-          onChange={handleQuizStoreChange}
-          items={categories}
-        />
-        <Select
-          name='levelId'
-          label='Level'
-          onChange={handleQuizStoreChange}
-          items={levels}
-        />
-        {questionStore.map((q, i) => {
-          return (
-            <div key={i}>
-              <Input
-                name={`question`}
-                label={`Question ${i + 1}`}
-                value={q.question}
-                onChange={(e) => handleQuestionStoreChange(e, i)}
+    <div className='row row-cols-md-2'>
+      <div className='mx-auto'>
+        <div>
+          <h1 className='my-2'>New Quiz Form</h1>
+          <Input
+            name='title'
+            label='Title'
+            value={quizStore.title}
+            onChange={handleQuizStoreChange}
+          />
+          <div className='row'>
+            <div className='col'>
+              <Select
+                name='categoryId'
+                label='Category'
+                onChange={handleQuizStoreChange}
+                items={categories}
               />
-              {q.options.map((o, l) => {
-                return (
-                  <div key={l}>
-                    <input
-                      type='radio'
-                      name='answer'
-                      value={l}
-                      onChange={(e) => handleQuestionStoreChange(e, i)}
-                    />
-                    <Input
-                      name={`option${l + 1}`}
-                      label={`Option ${l + 1}`}
-                      value={o}
-                      onChange={(e) => handleOptionChange(e, l, i)}
-                    />
-                    {/* Remove Option */}
-                    {q.options.length > 2 && (
-                      <button onClick={() => removeOption(l, i)}>
-                        Remove Option
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-              {/* Add Option */}
-              <button onClick={() => addOption(i)}>Add Option</button>
-
-              {/* Remove Question */}
-              {questionStore.length > 1 && (
-                <button onClick={() => removeQuestion(i)}>
-                  Remove Question
-                </button>
-              )}
             </div>
-          );
-        })}
-        {/* Add Question */}
-        <button onClick={addQuestion}>Add Question</button>
+            <div className='col'>
+              <Select
+                name='levelId'
+                label='Level'
+                onChange={handleQuizStoreChange}
+                items={levels}
+              />
+            </div>
+          </div>
+
+          {questionStore.map((q, i) => {
+            return (
+              <div key={i}>
+                <br />
+                <Input
+                  name={`question`}
+                  label={`Question ${i + 1}.)`}
+                  value={q.question}
+                  onChange={(e) => handleQuestionStoreChange(e, i)}
+                />
+
+                <form className='row'>
+                  {q.options.map((o, l) => {
+                    return (
+                      <div key={l} className='col-md-6 my-2'>
+                        <input
+                          type='radio'
+                          name='answer'
+                          value={l}
+                          onChange={(e) => handleQuestionStoreChange(e, i)}
+                        />
+                        <input
+                          className='mx-2'
+                          type='text'
+                          name={`option${l + 1}`}
+                          value={o}
+                          onChange={(e) => handleOptionChange(e, l, i)}
+                        />
+
+                        {/* Remove Option */}
+                        {q.options.length > 2 && (
+                          <button
+                            className='btn btn-warning'
+                            onClick={() => removeOption(l, i)}
+                          >
+                            x
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  {/* Add Option */}
+                  <div className='col my-2'>
+                    <button
+                      className='btn btn-info'
+                      onClick={(e) => addOption(e, i)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </form>
+                {/* Remove Question */}
+                {questionStore.length > 1 && (
+                  <div align='right'>
+                    <button
+                      className='btn btn-danger'
+                      onClick={() => removeQuestion(i)}
+                    >
+                      x
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          {/* Add Question */}
+          <button className='btn btn-success my-2' onClick={addQuestion}>
+            +
+          </button>
+        </div>
+        <div className='mb-4' align='center'>
+          <button className='btn btn-primary' onClick={handleSubmit}>
+            Save Quiz
+          </button>
+        </div>
       </div>
-      <button onClick={handleSubmit}>Submit</button>
-    </>
+    </div>
   );
 };
 

@@ -110,56 +110,58 @@ const ResourceForm = () => {
 
   // Form
   return (
-    <>
-      <h1 className='py-2'>Resource Form</h1>
-      <form onSubmit={handleSubmit}>
-        <Input
-          name='title'
-          label='Title'
-          value={resource.title}
-          type='text'
-          onChange={handleChange}
-          error={errors.title}
-        />
-        <Input
-          name='resourceUrl'
-          label='Resource Url'
-          value={resource.resourceUrl}
-          type='text'
-          onChange={handleChange}
-          error={errors.resourceUrl}
-        />
-        <Input
-          name='coverUrl'
-          label='Cover Image Url'
-          value={resource.coverUrl}
-          type='text'
-          onChange={handleChange}
-          error={errors.coverUrl}
-        />
-        <Select
-          name='categoryId'
-          label='Category'
-          onChange={handleChange}
-          items={categories}
-          error={errors.categoryId}
-        />
-        <Select
-          name='levelId'
-          label='Level'
-          onChange={handleChange}
-          items={levels}
-          error={errors.levelId}
-        />
-        <button
-          type='submit'
-          onClick={handleSubmit}
-          className='btn btn-primary my-4'
-        >
-          Save
-        </button>
-      </form>
-    </>
+    <div className='row-cols-md-2'>
+      <div className='mx-auto'>
+        <h1 className='py-2'>Resource Form</h1>
+        <form onSubmit={handleSubmit}>
+          <Input
+            name='title'
+            label='Title'
+            value={resource.title}
+            type='text'
+            onChange={handleChange}
+            error={errors.title}
+          />
+          <Input
+            name='resourceUrl'
+            label='Resource Url'
+            value={resource.resourceUrl}
+            type='text'
+            onChange={handleChange}
+            error={errors.resourceUrl}
+          />
+          <Input
+            name='coverUrl'
+            label='Cover Image Url'
+            value={resource.coverUrl}
+            type='text'
+            onChange={handleChange}
+            error={errors.coverUrl}
+          />
+          <Select
+            name='categoryId'
+            label='Category'
+            onChange={handleChange}
+            items={categories}
+            error={errors.categoryId}
+          />
+          <Select
+            name='levelId'
+            label='Level'
+            onChange={handleChange}
+            items={levels}
+            error={errors.levelId}
+          />
+          <button
+            type='submit'
+            onClick={handleSubmit}
+            className='btn btn-primary my-4'
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

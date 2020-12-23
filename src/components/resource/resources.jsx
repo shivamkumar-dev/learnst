@@ -62,7 +62,7 @@ const Resource = () => {
   return (
     <>
       {/* Category and Level Dropdowns */}
-      <div className='row m-4'>
+      <div className='row my-md-4'>
         <Dropdown
           title='Category'
           items={categories}
@@ -76,7 +76,7 @@ const Resource = () => {
         />
 
         {admin && (
-          <div className='col-3'>
+          <div className='col-md-3 p-2'>
             <Link to='/resources/new' className='btn btn-primary'>
               Add New Resource
             </Link>

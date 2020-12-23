@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Joi from 'joi';
 import Input from './common/input';
 import { validate, validateProperty } from '../utils/formValidation';
-import { login } from '../services/authService';
+import { login, getCurrentUser } from '../services/authService';
 
 const LoginForm = () => {
   // States
@@ -55,31 +56,35 @@ const LoginForm = () => {
     setAccount(newAccount);
   };
 
+  if (getCurrentUser()) return <Redirect to='/' />;
+
   // Form
   return (
-    <>
-      <h1 className='py-5'>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <Input
-          name='email'
-          label='Email'
-          value={account.email}
-          onChange={handleChange}
-          error={errors.email}
-        />
-        <Input
-          name='password'
-          label='Password'
-          value={account.password}
-          type='password'
-          onChange={handleChange}
-          error={errors.password}
-        />
-        <button type='submit' className='btn btn-primary'>
-          Login
-        </button>
-      </form>
-    </>
+    <div className='row-cols-md-3'>
+      <div className='mx-auto'>
+        <h1 className='py-3'>Login</h1>
+        <form onSubmit={handleSubmit}>
+          <Input
+            name='email'
+            label='Email'
+            value={account.email}
+            onChange={handleChange}
+            error={errors.email}
+          />
+          <Input
+            name='password'
+            label='Password'
+            value={account.password}
+            type='password'
+            onChange={handleChange}
+            error={errors.password}
+          />
+          <button type='submit' className='btn btn-primary'>
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Dropdown = ({ title, items, onItemSelect }) => {
   return (
-    <div className='col-3'>
+    <div className='col-md-3 p-2'>
       <select className='form-select' onChange={(event) => onItemSelect(event)}>
         <option defaultValue>{title}</option>
         {items.map((item) => (

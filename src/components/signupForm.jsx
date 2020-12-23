@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Joi from 'joi';
 import Input from './common/input';
 import { validate, validateProperty } from '../utils/formValidation';
 import { register } from '../services/userService';
-import { loginWithJwt } from '../services/authService';
+import { loginWithJwt, getCurrentUser } from '../services/authService';
 
 const SignupForm = () => {
   // States
@@ -56,39 +57,43 @@ const SignupForm = () => {
     setAccount(newAccount);
   };
 
+  if (getCurrentUser()) return <Redirect to='/' />;
+
   return (
-    <>
-      <h1 className='py-5'>Signup</h1>
-      <form onSubmit={handleSubmit}>
-        <Input
-          name='name'
-          label='Name'
-          type='text'
-          value={account.name}
-          onChange={handleChange}
-          error={errors.name}
-        />
-        <Input
-          name='email'
-          label='Email'
-          type='text'
-          value={account.email}
-          onChange={handleChange}
-          error={errors.email}
-        />
-        <Input
-          name='password'
-          label='Password'
-          type='password'
-          value={account.password}
-          onChange={handleChange}
-          error={errors.password}
-        />
-        <button type='submit' className='btn btn-primary'>
-          Signup
-        </button>
-      </form>
-    </>
+    <div className='row-cols-md-3'>
+      <div className='mx-auto'>
+        <h1 className='py-3'>Signup</h1>
+        <form onSubmit={handleSubmit}>
+          <Input
+            name='name'
+            label='Name'
+            type='text'
+            value={account.name}
+            onChange={handleChange}
+            error={errors.name}
+          />
+          <Input
+            name='email'
+            label='Email'
+            type='text'
+            value={account.email}
+            onChange={handleChange}
+            error={errors.email}
+          />
+          <Input
+            name='password'
+            label='Password'
+            type='password'
+            value={account.password}
+            onChange={handleChange}
+            error={errors.password}
+          />
+          <button type='submit' className='btn btn-primary'>
+            Signup
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 
